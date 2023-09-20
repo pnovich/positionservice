@@ -12,27 +12,33 @@ public class PositionController {
     PositionService positionService;
 
     @GetMapping("/positions/{id}")
-    public Position getPositionById(@PathVariable ("id") Long id) {
+    public Position getPositionById(@PathVariable("id") Long id) {
         return positionService.findPositionById(id);
     }
 
-    @GetMapping("/positions/")
+    @GetMapping("/positions")
     public Collection<Position> getAllPositions() {
         return positionService.findAllPositions();
     }
 
-    @PostMapping("/positions/")
+    @PostMapping("/positions")
     public Position createPosition(@RequestBody Position position) {
         return positionService.createPosition(position);
     }
 
-    @PutMapping("/positions/")
+    @PutMapping("/positions")
     public Position updatePosition(@RequestBody Position position) {
         return positionService.updatePosition(position);
     }
 
     @DeleteMapping("/positions/{id}")
-    public void deletePosition(@PathVariable ("id") Long id) {
+    public void deletePosition(@PathVariable("id") Long id) {
         positionService.deletePositionById(id);
+    }
+
+    @GetMapping("/positions/paged")
+    public Collection<Position> getAllPositionsWithPagination(@RequestParam("page") int pageNumber,
+                                                              @RequestParam("size") int pageSize) {
+        return positionService.getAllPositionsWithPagination(pageNumber, pageSize);
     }
 }

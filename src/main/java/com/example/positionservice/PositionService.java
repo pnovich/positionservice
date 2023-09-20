@@ -2,6 +2,9 @@ package com.example.positionservice;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -14,14 +17,19 @@ public class PositionService {
     PositionRepository positionRepository;
 
     @PostConstruct
-    public  void initDatabase() {
+    public void initDatabase() {
         List<Position> positions = Arrays.asList(
                 new Position("position1"),
                 new Position("position2"),
-                new Position("position3")
+                new Position("position3"),
+                new Position("position4"),
+                new Position("position5"),
+                new Position("position6"),
+                new Position("position7")
         );
         positionRepository.saveAll(positions);
     }
+
 
     public Position findPositionById(Long id) {
         return positionRepository.findById(id).get();
@@ -45,6 +53,12 @@ public class PositionService {
 
     public void deletePositionById(Long id) {
         positionRepository.deleteById(id);
+    }
+
+    public Collection<Position> getAllPositionsWithPagination(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Position> page = positionRepository.findAll(pageable);
+        return page.getContent();
     }
 
 }
