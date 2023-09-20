@@ -41,4 +41,10 @@ public class PositionController {
                                                               @RequestParam("size") int pageSize) {
         return positionService.getAllPositionsWithPagination(pageNumber, pageSize);
     }
+
+    @PostMapping("positions/batch/{size}")
+    private Collection<Position> addBatchInOneCollection(@PathVariable("size") int size) {
+        Collection<Position> positions = positionService.getBatch(size);
+        return positionService.saveAll(positions);
+    }
 }
